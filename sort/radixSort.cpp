@@ -2,6 +2,7 @@
 #include <queue>
 #include <vector>
 #define BASE 10
+#define TEST 999
 using namespace std;
 
 typedef struct node {
@@ -87,8 +88,8 @@ class Radix {
 int main() {
   vector<int> test;
   default_random_engine e(time(0));
-  uniform_int_distribution<unsigned> u(0, 999);
-  for (int i = 0; i < 999; ++i) {
+  uniform_int_distribution<unsigned> u(0, TEST);
+  for (int i = 0; i < TEST; ++i) {
     test.push_back(u(e));
   }
   Radix solution(test);

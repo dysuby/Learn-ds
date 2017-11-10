@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#define TEST 999
 using namespace std;
 
 class MergeSort {
@@ -41,13 +42,13 @@ int test() {
   MergeSort solution;
   vector<int> test;
   default_random_engine e(time(0));
-  uniform_int_distribution<unsigned> u(0, 999);
-  for (int i = 0; i < 999; ++i) {
+  uniform_int_distribution<unsigned> u(0, TEST);
+  for (int i = 0; i < TEST; ++i) {
     test.push_back(u(e));
   }
   solution.sort(test);
   int prev = 0;
-  for (int index = 0; index < 999; ++index) {
+  for (int index = 0; index < TEST; ++index) {
     if (prev > test[index])
       cout << "error" << endl;
     prev = test[index];
