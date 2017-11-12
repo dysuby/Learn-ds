@@ -12,26 +12,26 @@ class heap {
     int *data;
     int size, capacity;
     void init() {
-      int less = 0;
+      int current = 0, child = 0;
       for (int index = size / 2; index > 0; --index) {
-        less = index * 2;
-        if (less < size && data[less] > data[less + 1])
-          ++less;
-        while (less <= size && data[index] > data[less]) {
-          int temp = data[index];
-          data[index] = data[less];
-          data[less] = temp;
-          index = less;
-          less = index * 2;
-          if (less < size && data[less] > data[less + 1])
-            ++less;
+        current = index;
+        child = current * 2;
+        int temp = data[current];
+        if (child < size && data[child] > data[child + 1])
+          ++child;
+        while (child <= size && temp > data[child]) {
+          data[current] = data[child];
+          current = child;
+          child = current * 2;
+          if (child < size && data[child] > data[child + 1])
+            ++child;
         }
+        data[current] = temp;
       }
-      
     }
   public:
     heap(int s = DEFAULT_SIZE): data(nullptr), size(0),capacity(DEFAULT_SIZE) {
-      if (s <= 0) 
+      if (s <= 0)
         return;
       else
         data = new int[s];
