@@ -4,6 +4,7 @@
 #include <random>
 #define DEFAULT_SIZE 11
 #define MIN -999999
+#define TEST 999
 
 using namespace std;
 
@@ -114,31 +115,31 @@ class heap {
 int main() {
   vector<int> test;
   default_random_engine e(time(0));
-  uniform_int_distribution<unsigned> u(0, 999);
-  for (int i = 0; i < 999; ++i) {
+  uniform_int_distribution<unsigned> u(0, TEST);
+  for (int i = 0; i < TEST; ++i) {
     test.push_back(u(e));
   }
   heap h1(test), h2;
   int prev = MIN;
-  for (int i = 0; i < 999; ++i) {
+  for (int i = 0; i < TEST; ++i) {
     h2.insert(u(e));
   }
   cout << h2.getsize();
-  for (int i = 0; i < 999; ++i) {
+  for (int i = 0; i < TEST; ++i) {
     int current = h1.deleteMin();
     if (current < prev)
       cout << "1" << endl;
     prev = current;
   }
   prev = 0;
-  for (int i = 0; i < 999; ++i) {
+  for (int i = 0; i < TEST; ++i) {
     int top = h2.top();
     int current = h2.deleteMin();
     if (current < prev || top != current)
       cout << "2" << endl;
     prev = current;
   }
-  h1.resize(9999);
+  h1.resize(8888);
   cout << endl;
   return 0;
 }
