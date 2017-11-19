@@ -13,7 +13,7 @@ class heap {
     int *data;
     int size, capacity;
     void init() {
-      int current = 0, child = 0;
+      // int current = 0, child = 0;
       // for (int index = size / 2; index > 0; --index) {
       //   current = index;
       //   child = current * 2;
