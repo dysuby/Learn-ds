@@ -6,7 +6,7 @@
 #define MIN (~0 ^ (1 << 31))
 using namespace std;
 
-class binaryHeap {
+class binaryQueue {
   private:
     struct node {
       int ele;
@@ -32,24 +32,24 @@ class binaryHeap {
       return left;
     }
   public:
-    binaryHeap(): _size(0) {
-      memset(roots, 0, MAX * sizeof(binaryHeap*));
+    binaryQueue(): _size(0) {
+      memset(roots, 0, MAX * sizeof(binaryQueue*));
     }
 
-    ~binaryHeap() {
+    ~binaryQueue() {
       clear();
     }
 
-    binaryHeap& push(int e) {
+    binaryQueue& push(int e) {
       node *newNode = new node(e);
-      binaryHeap temp;
+      binaryQueue temp;
       temp.roots[0] = newNode;
       ++temp._size;
       merge(temp);
       return *this;
     }
 
-    binaryHeap& merge(binaryHeap &heap) {
+    binaryQueue& merge(binaryQueue &heap) {
       if (heap._size + this -> _size > MIN) {
         cout << "Error!";
         return *this;
@@ -108,7 +108,7 @@ class binaryHeap {
       roots[index] -> child = 0;
       delete roots[index];
       roots[index] = 0;
-      binaryHeap deletedHeap;
+      binaryQueue deletedHeap;
       deletedHeap._size = (1 << index) - 1;
       for (int i = index - 1; i >= 0; --i) {
         deletedHeap.roots[i] = children;
@@ -158,9 +158,9 @@ struct ListNode {
 class Solution {
   public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        binaryHeap h;
+        binaryQueue h;
         for (int i = 0; i < lists.size(); ++i) {
-          binaryHeap tempHeap;
+          binaryQueue tempHeap;
           ListNode* temp = lists[i];
           while (temp) {
             tempHeap.push(temp -> val);
