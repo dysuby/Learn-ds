@@ -14,21 +14,43 @@ class heap {
     int size, capacity;
     void init() {
       int current = 0, child = 0;
-      for (int index = size / 2; index > 0; --index) {
-        current = index;
-        child = current * 2;
-        int temp = data[current];
-        if (child < size && data[child] > data[child + 1])
-          ++child;
-        while (child <= size && temp > data[child]) {
-          data[current] = data[child];
-          current = child;
-          child = current * 2;
-          if (child < size && data[child] > data[child + 1])
-            ++child;
-        }
-        data[current] = temp;
+      // for (int index = size / 2; index > 0; --index) {
+      //   current = index;
+      //   child = current * 2;
+      //   int temp = data[current];
+      //   if (child < size && data[child] > data[child + 1])
+      //     ++child;
+      //   while (child <= size && temp > data[child]) {
+      //     data[current] = data[child];
+      //     current = child;
+      //     child = current * 2;
+      //     if (child < size && data[child] > data[child + 1])
+      //       ++child;
+      //   }
+      //   data[current] = temp;
+      // }
+      for (int i = size / 2; i > 0; --i)
+        down(i);
+    }
+    void up(int index) {
+      int i = data[index];
+      for ( ; data[index / 2] > i; index /= 2) {
+        data[index] = data[index / 2];
       }
+      data[index] = i;
+    }
+    void down(int index) {
+      int last = data[index], less = 0;
+      for ( ; index * 2 <= size; index = less) {
+        less = index * 2;
+        if (less != size && data[less] > data[less + 1])
+          ++less;
+        if (last <= data[less])
+          break;
+        else
+          data[index] = data[less];
+      }
+      data[index] = last;
     }
   public:
     heap(int s = DEFAULT_SIZE): data(nullptr), size(0),capacity(DEFAULT_SIZE) {
@@ -64,29 +86,17 @@ class heap {
       if (size + 1 == capacity)
         resize(capacity * 2);
       ++size;
-      int index = size;
-      for ( ; data[index / 2] > i; index /= 2) {
-        data[index] = data[index / 2];
-      }
-      data[index] = i;
+      data[size] = i;
+      up(size);
       return true;
     }
     int deleteMin() {
       if (size == 0)
         return MIN;
-      int ans = data[1], last = data[size], less = 0;
+      int ans = data[1];
+      data[size] = data[1];
       --size;
-      int index = 1;
-      for ( ; index * 2 <= size; index = less) {
-        less = index * 2;
-        if (less != size && data[less] > data[less + 1])
-          ++less;
-        if (last <= data[less])
-          break;
-        else
-          data[index] = data[less];
-      }
-      data[index] = last;
+      down(1);
       return ans;
     }
     int top() {
