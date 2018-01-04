@@ -1,7 +1,7 @@
-#include <iostream>
 #include <cstring>
-#include <vector>
+#include <iostream>
 #include <random>
+#include <vector>
 #define DEFAULT_SIZE 11
 #define MIN -999999
 #define TEST 999
@@ -9,117 +9,108 @@
 using namespace std;
 
 class heap {
-  private:
-    int *data;
-    int size, capacity;
-    void init() {
-      // int current = 0, child = 0;
-      // for (int index = size / 2; index > 0; --index) {
-      //   current = index;
-      //   child = current * 2;
-      //   int temp = data[current];
-      //   if (child < size && data[child] > data[child + 1])
-      //     ++child;
-      //   while (child <= size && temp > data[child]) {
-      //     data[current] = data[child];
-      //     current = child;
-      //     child = current * 2;
-      //     if (child < size && data[child] > data[child + 1])
-      //       ++child;
-      //   }
-      //   data[current] = temp;
-      // }
-      for (int i = size / 2; i > 0; --i)
-        down(i);
+ private:
+  int *data;
+  int size, capacity;
+  void init() {
+    // int current = 0, child = 0;
+    // for (int index = size / 2; index > 0; --index) {
+    //   current = index;
+    //   child = current * 2;
+    //   int temp = data[current];
+    //   if (child < size && data[child] > data[child + 1])
+    //     ++child;
+    //   while (child <= size && temp > data[child]) {
+    //     data[current] = data[child];
+    //     current = child;
+    //     child = current * 2;
+    //     if (child < size && data[child] > data[child + 1])
+    //       ++child;
+    //   }
+    //   data[current] = temp;
+    // }
+    for (int i = size / 2; i > 0; --i) down(i);
+  }
+  void up(int index) {
+    int i = data[index];
+    for (; data[index / 2] > i; index /= 2) {
+      data[index] = data[index / 2];
     }
-    void up(int index) {
-      int i = data[index];
-      for ( ; data[index / 2] > i; index /= 2) {
-        data[index] = data[index / 2];
-      }
-      data[index] = i;
-    }
-    void down(int index) {
-      int last = data[index], less = 0;
-      for ( ; index * 2 <= size; index = less) {
-        less = index * 2;
-        if (less != size && data[less] > data[less + 1])
-          ++less;
-        if (last <= data[less])
-          break;
-        else
-          data[index] = data[less];
-      }
-      data[index] = last;
-    }
-  public:
-    heap(int s = DEFAULT_SIZE): data(nullptr), size(0),capacity(DEFAULT_SIZE) {
-      if (s <= 0)
-        return;
+    data[index] = i;
+  }
+  void down(int index) {
+    int last = data[index], less = 0;
+    for (; index * 2 <= size; index = less) {
+      less = index * 2;
+      if (less != size && data[less] > data[less + 1]) ++less;
+      if (last <= data[less])
+        break;
       else
-        data = new int[s];
-      memset(data, 0, (s) * sizeof(int));
-      data[0] = MIN;
+        data[index] = data[less];
     }
-    heap(vector<int> ele): data(nullptr), size(ele.size()), capacity(ele.size() + 1) {
-      if (ele.size() <= 0) 
-        return;
-      else
-        data = new int[ele.size() + 1];
-      memset(data, 0, (ele.size() + 1) * sizeof(int));
-      data[0] = MIN;
-      for (int index = 0; index < ele.size(); ++index) 
-        data[index + 1] = ele[index];
-      init();
+    data[index] = last;
+  }
+
+ public:
+  heap(int s = DEFAULT_SIZE) : data(nullptr), size(0), capacity(DEFAULT_SIZE) {
+    if (s <= 0)
+      return;
+    else
+      data = new int[s];
+    memset(data, 0, (s) * sizeof(int));
+    data[0] = MIN;
+  }
+  heap(vector<int> ele)
+      : data(nullptr), size(ele.size()), capacity(ele.size() + 1) {
+    if (ele.size() <= 0)
+      return;
+    else
+      data = new int[ele.size() + 1];
+    memset(data, 0, (ele.size() + 1) * sizeof(int));
+    data[0] = MIN;
+    for (int index = 0; index < ele.size(); ++index)
+      data[index + 1] = ele[index];
+    init();
+  }
+  ~heap() { clear(); }
+  void clear() {
+    if (data) delete[] data;
+    capacity = 0;
+    size = 0;
+    data = nullptr;
+  }
+  bool insert(int i) {
+    if (size + 1 == capacity) resize(capacity * 2);
+    ++size;
+    data[size] = i;
+    up(size);
+    return true;
+  }
+  int deleteMin() {
+    if (size == 0) return MIN;
+    int ans = data[1];
+    data[size] = data[1];
+    --size;
+    down(1);
+    return ans;
+  }
+  int top() {
+    if (size == 0) return MIN;
+    return data[1];
+  }
+  int getsize() { return size; }
+  bool resize(int newCapacity) {
+    if (newCapacity <= capacity) return false;
+    int *newData = new int[newCapacity];
+    memset(newData, 0, newCapacity * sizeof(int));
+    for (int index = 0; index <= size; ++index) {
+      newData[index] = data[index];
     }
-    ~heap() {
-      clear();
-    }
-    void clear() {
-      if (data)
-        delete[] data;
-      capacity = 0;
-      size = 0;
-      data = nullptr;
-    }
-    bool insert(int i) {
-      if (size + 1 == capacity)
-        resize(capacity * 2);
-      ++size;
-      data[size] = i;
-      up(size);
-      return true;
-    }
-    int deleteMin() {
-      if (size == 0)
-        return MIN;
-      int ans = data[1];
-      data[size] = data[1];
-      --size;
-      down(1);
-      return ans;
-    }
-    int top() {
-      if (size == 0)
-        return MIN;
-      return data[1];
-    }
-    int getsize() {
-      return size;
-    }
-    bool resize(int newCapacity) {
-      if (newCapacity <= capacity)
-        return false;
-      int *newData = new int[newCapacity];
-      memset(newData, 0, newCapacity * sizeof(int));
-      for (int index = 0; index <= size; ++index) {
-        newData[index] = data[index];
-      }
-      delete[] data;
-      data = newData;
-      capacity = newCapacity;
-      return true;
-    }
+    delete[] data;
+    data = newData;
+    capacity = newCapacity;
+    return true;
+  }
 };
 
 int main() {
@@ -137,16 +128,14 @@ int main() {
   cout << h2.getsize();
   for (int i = 0; i < TEST; ++i) {
     int current = h1.deleteMin();
-    if (current < prev)
-      cout << "1" << endl;
+    if (current < prev) cout << "1" << endl;
     prev = current;
   }
   prev = 0;
   for (int i = 0; i < TEST; ++i) {
     int top = h2.top();
     int current = h2.deleteMin();
-    if (current < prev || top != current)
-      cout << "2" << endl;
+    if (current < prev || top != current) cout << "2" << endl;
     prev = current;
   }
   h1.resize(8888);
