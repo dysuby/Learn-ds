@@ -1,5 +1,6 @@
 #include <list>
 #include <vector>
+#define hash fuck
 using namespace std;
 
 bool isPrime(int n) {
@@ -41,7 +42,7 @@ class HashTable {
   // Insert key x  if x is not in the table and return true. Otherwise, return
   // false and do nothing.  If the table is full, you will call rehash.
   {
-    if (!contains(x)) return false;
+    if (contains(x)) return false;
     if (currentSize == theLists.size()) rehash();
     int pos = myhash(x);
     theLists[pos].push_back(x);
