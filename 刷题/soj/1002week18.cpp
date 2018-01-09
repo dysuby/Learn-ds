@@ -19,11 +19,9 @@ void dij(vector<vector<int>> graph, vector<int> &path, int s) {
     }
     if (path[min] == INT_MAX) break;
     unvisited[min] = 0;
-    for (int i = 0; i < size; ++i) {
-      if (graph[min][i] != INT_MAX &&
-          (graph[min][i] + path[min] < path[i] || path[i] == INT_MAX))
+    for (int i = 0; i < size; ++i)
+      if (graph[min][i] != INT_MAX && graph[min][i] + path[min] < path[i])
         path[i] = graph[min][i] + path[min];
-    }
   }
 }
 
