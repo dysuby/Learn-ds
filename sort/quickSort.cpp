@@ -14,7 +14,7 @@ class quickSort {
       if (arr[left] > arr[med])
         swap(arr[left], arr[med])
       if (arr[med] > arr[right])
-        swap(arr[med], arr[left])
+        swap(arr[med], arr[right])
       if (arr[left] > arr[med])
         swap(arr[left], arr[med])
       swap(arr[med], arr[right - 1]);
