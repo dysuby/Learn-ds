@@ -2,6 +2,7 @@
 #include <random>
 #include <string>
 #include <vector>
+#include <ctime>
 
 #define TEST 999
 using namespace std;

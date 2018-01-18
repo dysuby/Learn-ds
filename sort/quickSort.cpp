@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <random>
+#include <ctime>
 using namespace std;
 
 #define swap(x, y) {int temp = x; x = y; y = temp;}
@@ -22,16 +23,14 @@ class quickSort {
     }
 
     void qsort(vector<int> &arr, int left, int right) {
-      if (right - left >= CUTOFF) {
+      if (/* left < right */right - left >= CUTOFF) {
         int pivot = median(arr, left, right);
         int i = left, j = right - 1;
-        while (true) {
+        while (i < j) {
           while (arr[++i] < pivot) {}
           while (arr[--j] > pivot) {}
           if (i < j)
             swap(arr[i], arr[j])
-          else
-            break;
         }
         swap(arr[i], arr[right - 1]);
         qsort(arr, left, i - 1);
@@ -72,7 +71,7 @@ int test() {
     if (prev > test[index])
       cout << "error" << endl;
     prev = test[index];
-    cout << test[index] << " ";
+    // cout << test[index] << " ";
   }
   cout << endl;
   return 0;
