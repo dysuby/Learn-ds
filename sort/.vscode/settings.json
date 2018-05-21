@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.sass": "scss",
+    "ios": "cpp",
+    "xiosbase": "cpp"
+  }
+}
